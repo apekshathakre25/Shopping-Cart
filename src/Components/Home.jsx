@@ -3,7 +3,7 @@ import Nav from "./Nav";
 import { Link, useLocation } from "react-router-dom";
 import { ProductContext } from "../utils/Helper";
 import Loading from "./Loading";
-import axios from "../utils/Axios";
+
 
 const Home = () => {
   const { products } = useContext(ProductContext);

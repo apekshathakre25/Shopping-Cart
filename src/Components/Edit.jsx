@@ -7,7 +7,6 @@ function Edit() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [product, setProduct] = useState({
-    id: "",
     title: "",
     image: "",
     description: "",
@@ -35,10 +34,13 @@ function Edit() {
       return alert("Please fill in all the fields");
     }
 
-    const productIndex = products.findIndex((item) => item.id === id);
-    const updatedProducts = [...products];
-    updatedProducts[productIndex] = { ...product };
-    setProducts(updatedProducts);
+    const pi = products.findIndex((p) => p.id == id);
+
+    const copyData = [...products];
+    copyData[pi] = { ...products[pi], ...product };
+    setProducts(copyData);
+    localStorage.setItem("products", JSON.stringify(copyData));
+    console.log();
     navigate("/");
   };
 

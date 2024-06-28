@@ -21,12 +21,12 @@ const Nav = () => {
 
   return (
     <nav className="w-[15%] h-full  flex flex-col items-center pt-5">
-      <a
-        href=""
+      <Link
+        to={"/create"}
         className="py-2 px-5 rounded-md border border-red-900 text-blue-400"
       >
         Add New Product
-      </a>
+      </Link>
       <hr className="my-3 w-[80%]" />
 
       <h1 className="text-2xl mb-3 w-[80%]">Category Filter</h1>
