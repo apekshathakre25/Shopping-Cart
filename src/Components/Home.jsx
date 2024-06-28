@@ -4,33 +4,40 @@ import { Link, useLocation } from "react-router-dom";
 import { ProductContext } from "../utils/Helper";
 import Loading from "./Loading";
 
-
 const Home = () => {
   const { products } = useContext(ProductContext);
-  const [filterProduct, setFilterProduct] = useState(null);
+  const [filterProduct, setFilterProduct] = useState([]);
   const { search } = useLocation();
   const params = new URLSearchParams(search);
+  const [savedProducts, setSavedProducts] = useState(
+    localStorage.getItem("products")
+  );
   const category = decodeURIComponent(params.get("category") || "").split(
     ","
   )[0];
 
- 
+  useEffect(() => {
+    // JSON.parse(localStorage.setItem("products")) || null;
+    console.log(products);
+    localStorage.setItem("products", JSON.stringify(products));
+  }, [products]);
+
   useEffect(() => {
     if (category) {
       // getProductsCategory();
       setFilterProduct(
-        products.filter((product) => product.category == category)
+        savedProducts.filter((product) => product.category == category)
       );
     } else {
-      setFilterProduct(products);
+      setFilterProduct(savedProducts);
     }
-  }, [category, products]);
+  }, [category, savedProducts]);
 
-  return products ? (
+  return savedProducts ? (
     <>
       <Nav />
       <div className="w-[85%] p-5 pt-[5%] flex flex-wrap overflow-x-hidden overflow-y-auto">
-        {filterProduct &&
+        {filterProduct.length &&
           filterProduct.map((item) => (
             <Link
               key={item.id}

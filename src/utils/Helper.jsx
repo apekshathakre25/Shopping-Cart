@@ -8,6 +8,8 @@ const Context = (props) => {
   const getProducts = async () => {
     try {
       const { data } = await axios("/products");
+      console.log(data);
+      localStorage.setItem("products", JSON.stringify([...data]));
       setProducts(data);
     } catch (error) {
       console.log(error);
@@ -16,10 +18,6 @@ const Context = (props) => {
 
   useEffect(() => {
     getProducts();
-  }, []);
-
-  useEffect(() => {
-    JSON.parse(localStorage.getItem("products")) || null;
   }, []);
 
   return (
