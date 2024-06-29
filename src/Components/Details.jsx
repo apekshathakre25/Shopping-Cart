@@ -28,7 +28,7 @@ const Details = () => {
   }, []);
 
   const ProductDelete = () => {
-    const copyProduct = products.filter((product) => product.id !== id);
+    const copyProduct = products.filter((product) => product.id !== parseInt(id));
     setProducts(copyProduct);
     localStorage.setItem("products", JSON.stringify(copyProduct));
     navigate("/");

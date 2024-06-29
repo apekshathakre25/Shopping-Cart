@@ -9,21 +9,24 @@ const Home = () => {
   const [filterProduct, setFilterProduct] = useState([]);
   const { search } = useLocation();
   const params = new URLSearchParams(search);
-  const [savedProducts, setSavedProducts] = useState(
-    localStorage.getItem("products")
-  );
+  const [savedProducts, setSavedProducts] = useState([]);
   const category = decodeURIComponent(params.get("category") || "").split(
     ","
   )[0];
 
   useEffect(() => {
-    // JSON.parse(localStorage.setItem("products")) || null;
-    console.log(products);
-    localStorage.setItem("products", JSON.stringify(products));
+    if (products) {
+      console.log(products);
+      localStorage.setItem("products", JSON.stringify(products));
+      setSavedProducts(products);
+    } else {
+      const localStorageProducts = JSON.parse(localStorage.getItem("products") || "[]");
+      setSavedProducts(localStorageProducts);
+    }
   }, [products]);
 
   useEffect(() => {
-    if (category) {
+    if (category && savedProducts.length) {
       // getProductsCategory();
       setFilterProduct(
         savedProducts.filter((product) => product.category == category)
@@ -33,11 +36,13 @@ const Home = () => {
     }
   }, [category, savedProducts]);
 
-  return savedProducts ? (
+  console.log(filterProduct);
+
+  return savedProducts.length ? (
     <>
       <Nav />
       <div className="w-[85%] p-5 pt-[5%] flex flex-wrap overflow-x-hidden overflow-y-auto">
-        {filterProduct.length &&
+        {filterProduct.length>0 &&
           filterProduct.map((item) => (
             <Link
               key={item.id}
